@@ -24,7 +24,7 @@ var steps = [
 
 var positions = [
   '中央', '動かない', '逆'
-]
+];
 
 var conditions = [
   'チャンス', '追い込まれ', 'イーブン'
@@ -35,7 +35,7 @@ var speeds = [
 ];
 
 var fakes = [
-  'なし', 'あり'
+  'なし', '少な目', '多め'
 ];
 
 var themes = [
@@ -63,10 +63,14 @@ function getNextPlayer(player) {
   return player === '相手' ? '自分' : '相手';
 }
 
-function getThemeText(theme){
+function getOverviewText(rally){
   return format(
-    '[テーマ]  ラリーのテーマは{0}です。\n',
-    theme
+    '[全般]  テーマ: {0}   バランス: {1}   ステップ: {2}   スピード: {3}   フェイント: {4}   \n',
+    rally.theme,
+    rally.condition,
+    rally.step,
+    rally.speed,
+    rally.fake
   );    
 }
 
@@ -85,9 +89,9 @@ function getServiceText(service) {
   return format(
     '[{0}のサーブ！]  開始地点: {1}   狙い: {2}   打ち方: {3}   \n',
     service.player,
-    service.hand,
+    service.position,
     service.directionY + service.directionX,
-    service.position
+    service.hand
   );
 }
 
@@ -97,24 +101,16 @@ function getStroke(player, from){
     serve: false,
     from: from,
     directionX: getRandomElement(directionsX),
-    directionY: getRandomElement(directionsY),
-    condition: getRandomElement(conditions),
-    step: getRandomElement(steps),
-    speed: getRandomElement(speeds),
-    fake: getRandomElement(fakes)
+    directionY: getRandomElement(directionsY)
   };
 }
 
 function getStrokeText(stroke) {
   return format(
-    '[{0}のストローク！]  開始: {1}    狙い: {2}   フェイント: {3}   バランス: {4}   ステップ: {5}   スピード: {6}    \n',
+    '[{0}のストローク！]  開始: {1}    狙い: {2}   \n',
     stroke.player,
     stroke.from.y + stroke.from.x,
-    stroke.directionY + stroke.directionX,
-    stroke.fake,
-    stroke.condition,
-    stroke.step,
-    stroke.speed
+    stroke.directionY + stroke.directionX
   );
 }
 
@@ -124,9 +120,14 @@ function getRally() {
   
   var rally = {
     theme: getRandomElement(themes),
-    strokes: [service]
+    condition: getRandomElement(conditions),
+    step: getRandomElement(steps),
+    speed: getRandomElement(speeds),
+    fake: getRandomElement(fakes),
+    strokes: [service],
   };
-  var rallyCount = 5;
+  var rallyCount = 6;
+  
   var nextPosition = {x: service.directionX, y: service.directionY};
   var nextPlayer = getNextPlayer(server);
   for( var i = 0; i < rallyCount; i++ ) {
@@ -141,7 +142,7 @@ function getRally() {
 }
 
 function getRallyText(rally){
-  var text = getThemeText(rally.theme);
+  var text = getOverviewText(rally);
   for(var j = 0; j < rally.strokes.length; j++){
     var stroke = rally.strokes[j];
     if(stroke.serve) {
@@ -153,6 +154,15 @@ function getRallyText(rally){
   return text;
 }
 
+function getTodayString() {
+  var date = new Date();
+  var str = ''
+  str += date.getFullYear() + "/";
+  str += (date.getMonth() + 1) + '/';
+  str += date.getDate();
+  return str
+}
+
 function sendMail() {
   var rally = getRally();
   var text = getRallyText(rally);
@@ -161,7 +171,8 @@ function sendMail() {
   var from = 'my-email@gmail.com';
   var sender = 'my-name';
   
-  var subject = '今日の練習';
+  var today = new Date();
+  var subject = format('今日の練習（{0}）', getTodayString());
   var body ='こんな練習はいかがでしょうか？\n' + text;
   
   GmailApp.sendEmail(
@@ -175,4 +186,3 @@ function sendMail() {
   );
   
 }
-
