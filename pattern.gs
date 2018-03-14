@@ -1,45 +1,45 @@
 var players = [
-  '‘Šè', '©•ª'
+  'ç›¸æ‰‹', 'è‡ªåˆ†'
 ];
 
 var serviceHands = [
-  'ƒtƒHƒA', 'ƒoƒbƒN'
+  'ãƒ•ã‚©ã‚¢', 'ãƒãƒƒã‚¯'
 ]
 
 var servicePositions = [
-  '‰E‘¤', '¶‘¤'
+  'å³å´', 'å·¦å´'
 ];
 
 var directionsX = [
-  'ƒoƒbƒN', 'ƒtƒHƒA', 'ƒZƒ“ƒ^['
+  'ãƒãƒƒã‚¯', 'ãƒ•ã‚©ã‚¢', 'ã‚»ãƒ³ã‚¿ãƒ¼'
 ];
 
 var directionsY = [
-  'ƒR[ƒg‰œ', 'ƒlƒbƒg‘O', 'ƒTƒCƒh'
+  'ã‚³ãƒ¼ãƒˆå¥¥', 'ãƒãƒƒãƒˆå‰', 'ã‚µã‚¤ãƒ‰'
 ];
 
 var steps = [
-  '1•à', '2•à', '3•à'
-];
-
-var positions = [
-  '’†‰›', '“®‚©‚È‚¢', '‹t'
+  'è¿‘ã‚', 'æ™®é€š', 'é ç›®'
 ];
 
 var conditions = [
-  'ƒ`ƒƒƒ“ƒX', '’Ç‚¢‚Ü‚ê', 'ƒC[ƒuƒ“'
+  'ãƒãƒ£ãƒ³ã‚¹', 'è¿½ã„è¾¼ã¾ã‚Œ', 'ã‚¤ãƒ¼ãƒ–ãƒ³'
 ];
 
 var speeds = [
-  '‘‚¢', '’x‚¢', '•’Ê'
+  'æ—©ã„', 'é…ã„', 'æ™®é€š'
 ];
 
 var fakes = [
-  '‚È‚µ', '­‚È–Ú', '‘½‚ß'
+  'ãªã—', 'å°‘ãªç›®', 'å¤šã‚'
 ];
 
 var themes = [
-  'Ø‚ê–Ú‚ª‚È‚¢', '‹Zp“I‚È“ïˆÕ“x‚ğã‚°‚é', 'ƒGƒlƒ‹ƒM[‚ğÅ‘å‰»‚·‚é', 'Å¬‚Ì—Í‚Å“®‚­', 'ƒŠƒYƒ€‚ğ•Ï‚¦‚é', 'Å‘åƒXƒs[ƒh'
+  'åˆ‡ã‚Œç›®ãŒãªã„', 'æŠ€è¡“çš„ãªé›£æ˜“åº¦ã‚’ä¸Šã’ã‚‹', 'ã‚¨ãƒãƒ«ã‚®ãƒ¼ã‚’æœ€å¤§åŒ–ã™ã‚‹', 'æœ€å°ã®åŠ›ã§å‹•ã', 'ãƒªã‚ºãƒ ã‚’å¤‰ãˆã‚‹', 'æœ€å¤§ã‚¹ãƒ”ãƒ¼ãƒ‰'
+];
+
+var virtuals = [
+  'Lee Chong Wei', 'Lin Dan', 'Chen Long', 'Wang Shixian', 'å±±å£èŒœ', 'Lee Yong-dae', 'Lee Hyun-il', 'å¼µæœ¬'
 ];
 
 function getRandomElement(arr) {
@@ -60,17 +60,18 @@ function getRandomRange(min, max) {
 }
 
 function getNextPlayer(player) {
-  return player === '‘Šè' ? '©•ª' : '‘Šè';
+  return player === 'ç›¸æ‰‹' ? 'è‡ªåˆ†' : 'ç›¸æ‰‹';
 }
 
-function getOverviewText(rally){
+function getOverviewText(overview){
   return format(
-    '[‘S”Ê]  ƒe[ƒ}: {0}   ƒoƒ‰ƒ“ƒX: {1}   ƒXƒeƒbƒv: {2}   ƒXƒs[ƒh: {3}   ƒtƒFƒCƒ“ƒg: {4}   \n',
-    rally.theme,
-    rally.condition,
-    rally.step,
-    rally.speed,
-    rally.fake
+    '[å…¨èˆ¬]  ãƒ†ãƒ¼ãƒ: {0}   ãƒãƒ©ãƒ³ã‚¹: {1}   ã‚¹ãƒ†ãƒƒãƒ—: {2}   ã‚¹ãƒ”ãƒ¼ãƒ‰: {3}   ãƒ•ã‚§ã‚¤ãƒ³ãƒˆ: {4}   ä»®æƒ³æ•µ: {5}    \n\n',
+    overview.theme,
+    overview.condition,
+    overview.step,
+    overview.speed,
+    overview.fake,
+    overview.virtual
   );    
 }
 
@@ -87,7 +88,7 @@ function getService(player){
 
 function getServiceText(service) {
   return format(
-    '[{0}‚ÌƒT[ƒuI]  ŠJn’n“_: {1}   ‘_‚¢: {2}   ‘Å‚¿•û: {3}   \n',
+    '[{0}ã®ã‚µãƒ¼ãƒ–ï¼]  é–‹å§‹åœ°ç‚¹: {1}   ç‹™ã„: {2}   æ‰“ã¡æ–¹: {3}   \n',
     service.player,
     service.position,
     service.directionY + service.directionX,
@@ -107,7 +108,7 @@ function getStroke(player, from){
 
 function getStrokeText(stroke) {
   return format(
-    '[{0}‚ÌƒXƒgƒ[ƒNI]  ŠJn: {1}    ‘_‚¢: {2}   \n',
+    '[{0}ã®ã‚¹ãƒˆãƒ­ãƒ¼ã‚¯ï¼]  é–‹å§‹: {1}    ç‹™ã„: {2}   \n',
     stroke.player,
     stroke.from.y + stroke.from.x,
     stroke.directionY + stroke.directionX
@@ -119,12 +120,7 @@ function getRally() {
   var service = getService(server);
   
   var rally = {
-    theme: getRandomElement(themes),
-    condition: getRandomElement(conditions),
-    step: getRandomElement(steps),
-    speed: getRandomElement(speeds),
-    fake: getRandomElement(fakes),
-    strokes: [service],
+    strokes: [service]
   };
   var rallyCount = 6;
   
@@ -142,7 +138,7 @@ function getRally() {
 }
 
 function getRallyText(rally){
-  var text = getOverviewText(rally);
+  var text = '';
   for(var j = 0; j < rally.strokes.length; j++){
     var stroke = rally.strokes[j];
     if(stroke.serve) {
@@ -152,6 +148,33 @@ function getRallyText(rally){
     }
   } 
   return text;
+}
+
+function getRallies(){
+  var ralliesCount = 4;
+  var rallies = [];
+  for(var i = 0; i < ralliesCount; i++) {
+    rallies.push(getRally());
+  }
+  return rallies;
+}
+
+function getRalliesText(rallies) {
+
+  var text = 
+      getOverviewText({
+        theme: getRandomElement(themes),
+        condition: getRandomElement(conditions),
+        step: getRandomElement(steps),
+        speed: getRandomElement(speeds),
+        fake: getRandomElement(fakes),
+        virtual: getRandomElement(virtuals),
+      });
+  
+  return rallies.reduce(function(acc, rally){
+    return acc + getRallyText(rally) + '\n\n';
+  }, text);
+
 }
 
 function getTodayString() {
@@ -164,16 +187,16 @@ function getTodayString() {
 }
 
 function sendMail() {
-  var rally = getRally();
-  var text = getRallyText(rally);
+  var rallies = getRallies();
+  var text = getRalliesText(rallies);
   
   var to = 'my-email@gmail.com';
   var from = 'my-email@gmail.com';
   var sender = 'my-name';
   
   var today = new Date();
-  var subject = format('¡“ú‚Ì—ûKi{0}j', getTodayString());
-  var body ='‚±‚ñ‚È—ûK‚Í‚¢‚©‚ª‚Å‚µ‚å‚¤‚©H\n' + text;
+  var subject = format('ä»Šæ—¥ã®ç·´ç¿’ï¼ˆ{0}ï¼‰', getTodayString());
+  var body ='ã“ã‚“ãªç·´ç¿’ã¯ã„ã‹ãŒã§ã—ã‚‡ã†ã‹ï¼Ÿ\n' + text;
   
   GmailApp.sendEmail(
     to,
